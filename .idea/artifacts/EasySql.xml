@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="EasySql">
+    <output-path>$PROJECT_DIR$/out/artifacts/EasySql</output-path>
+    <root id="archive" name="EasySql.jar">
+      <element id="module-output" name="EasySql" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+    </root>
+  </artifact>
+</component>
