@@ -22,6 +22,7 @@ public class Insert extends BaseSQLDao {
         try {
             mConnection.setAutoCommit(false);
             statement = mConnection.createStatement();
+            System.out.println(jointSql());
             result = statement.executeUpdate(jointSql());
             mConnection.commit();
         } catch (SQLException e) {
@@ -45,51 +46,52 @@ public class Insert extends BaseSQLDao {
         if (mFieldsName.isEmpty()) {
             throw new EasyException("The model object is empty or isn't initialize");
         }
-        String sql = jointSql(mFieldsName.size());
-        //替换$为key
-        for (int i = 0; i < mFieldsName.size(); i++) {
-            sql = sql.replaceFirst("\\$", mFieldsName.get(i));
-        }
-        //替换？为value
-        for (int i = 0; i < mFieldsName.size(); i++) {
-            sql = sql.replaceFirst("\\?", "'" + mNameAndTyper.get(mFieldsName.get(i)).value.toString() + "'");
-        }
-        return sql;
+//        String sql = jointSql(mFieldsName.size());
+//        //替换$为key
+//        for (int i = 0; i < mFieldsName.size(); i++) {
+//            sql = sql.replaceFirst("\\$", mFieldsName.get(i));
+//        }
+//        //替换？为value
+//        for (int i = 0; i < mFieldsName.size(); i++) {
+//            sql = sql.replaceFirst("\\?", "'" + mNameAndTyper.get(mFieldsName.get(i)).value.toString() + "'");
+//        }
+        return Sentence.jointInsert(mTableName,mFieldsName,mNameAndTyper);
+
     }
-
-    private String jointSql(int length) {
-        String head = "insert into " + mTableName + " (";
-        String mid = ") values(";
-        String tail = ")";
-        StringBuilder stringBuilderValue = new StringBuilder();
-        StringBuilder stringBuilderKey = new StringBuilder();
-
-        if (length == 1) {
-            stringBuilderValue.append("?");
-        } else if (length == 2) {
-            stringBuilderValue.append("?,?");
-        } else {
-            for (int i = 0; i < length - 1; i++) {
-                stringBuilderValue.append("?,");
-            }
-            stringBuilderValue.append("?");
-        }
-
-        if (length == 1) {
-            stringBuilderKey.append("$");
-        } else if (length == 2) {
-            stringBuilderKey.append("$,$");
-        } else {
-            for (int i = 0; i < length - 1; i++) {
-                stringBuilderKey.append("$,");
-            }
-            stringBuilderKey.append("$");
-        }
-
-        String value = stringBuilderValue.toString();
-        String key = stringBuilderKey.toString();
-        return head + key + mid + value + tail;
-    }
+//
+//    private String jointSql(int length) {
+//        String head = "insert into " + mTableName + " (";
+//        String mid = ") values(";
+//        String tail = ")";
+//        StringBuilder stringBuilderValue = new StringBuilder();
+//        StringBuilder stringBuilderKey = new StringBuilder();
+//
+//        if (length == 1) {
+//            stringBuilderValue.append("?");
+//        } else if (length == 2) {
+//            stringBuilderValue.append("?,?");
+//        } else {
+//            for (int i = 0; i < length - 1; i++) {
+//                stringBuilderValue.append("?,");
+//            }
+//            stringBuilderValue.append("?");
+//        }
+//
+//        if (length == 1) {
+//            stringBuilderKey.append("$");
+//        } else if (length == 2) {
+//            stringBuilderKey.append("$,$");
+//        } else {
+//            for (int i = 0; i < length - 1; i++) {
+//                stringBuilderKey.append("$,");
+//            }
+//            stringBuilderKey.append("$");
+//        }
+//
+//        String value = stringBuilderValue.toString();
+//        String key = stringBuilderKey.toString();
+//        return head + key + mid + value + tail;
+//    }
 
 
 //    public void insert(Object object, Class classT) throws SQLException, IllegalAccessException {

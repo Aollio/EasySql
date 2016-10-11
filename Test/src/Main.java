@@ -15,39 +15,71 @@ import java.util.List;
  */
 public class Main {
 
-//    public static final String TABLE_NAME = "webpage_copy";
-    public static final String TABLE_NAME = "human";
+        public static final String TABLE_NAME = "webpage_copy";
+//    public static final String TABLE_NAME = "human";
 
     public static void main(String[] args) throws SQLException, EasyException, InstantiationException, IllegalAccessException {
-//        List webpages = init(5);
+        List webpages = init(5);
 //        insert(webpages);
-////        deleteWithArg();
-////        delete(webpages);
+//        deleteWithArg();
+        delete(webpages);
 //        query();
-        Connection connection = JDBCUitl.getConnection();
-        DatabaseMetaData databaseMetaData = connection.getMetaData();
-        String databaseName = databaseMetaData.getDatabaseProductName();//MySQL
 
-        //获取表中所有列名
-        ResultSet columns = databaseMetaData.getColumns(null, null, TABLE_NAME, null);
+//        Connection connection = JDBCUitl.getConnection();
+//        DatabaseMetaData databaseMetaData = connection.getMetaData();
+//        String databaseName = databaseMetaData.getDatabaseProductName();//MySQL
+//
+//        //获取表中所有列名
+//        ResultSet columns = databaseMetaData.getColumns(null, null, TABLE_NAME, null);
+//
+//        while (columns.next()) {
+//            String name = columns.getString("COLUMN_NAME");//INDEX:4 ,name
+//            int dateType = columns.getInt("DATA_TYPE"); //INDEX:5
+//            System.out.println("name :" + name + ",dateType :" + dateType);
+//        }
+//
+//        ResultSet primarys = databaseMetaData.getPrimaryKeys(null,null,TABLE_NAME);
+//        while (primarys.next()) {
+//            String name = primarys.getString("COLUMN_NAME");//INDEX:4 ,name
+//            System.out.println("primary name :" + name );
+//        }
 
-        while (columns.next()) {
-            String name = columns.getString("COLUMN_NAME");//INDEX:4 ,name
-            int dateType = columns.getInt("DATA_TYPE"); //INDEX:5
-            System.out.println("name :" + name + ",dateType :" + dateType);
-        }
+//        String string = "abcdefd i daei";
+//        System.out.println(string.indexOf("i"));
+//        System.out.println(replace(8, "o", string));
+//        String head = string.substring(0, 8);
+//        String tail = string.substring(9);
+//        System.out.println(head);
+//        System.out.println(tail);
+//        String sql = "insert into tablename ($,$,$,$) values('?','?','?','?')";
+//
+//        String[] strings = new String[4];
+//        strings[0] = "0";
+//        strings[1] = "utr?";
+//        strings[2] = "title?";
+//        strings[3] = "html?";
+//
+//        int nextIndex = sql.indexOf("?");
+//        for (int i = 0; i <4; i++) {
+//            int value =strings[i].length();
+//            sql = replace(nextIndex,strings[i],sql);
+////            if ((nextIndex+2+value-1)<sql.indexOf("?")){
+////                //// TODO: 2016/10/11 说明此处传入的值含有？
+////            }
+//            nextIndex = (nextIndex+4+value-1);
+////            sql = sql.replaceFirst("\\?", mNameAndTyper.get(mFieldsName.get(i)).value.toString());
+//        }
+//        System.out.println(sql);
+    }
 
-        ResultSet primarys = databaseMetaData.getPrimaryKeys(null,null,TABLE_NAME);
-        while (primarys.next()) {
-            String name = primarys.getString("COLUMN_NAME");//INDEX:4 ,name
-            System.out.println("primary name :" + name );
-        }
+    public static String replace(int index, String newString, String oriString) {
+        return oriString.substring(0, index) + newString + oriString.substring(index + 1);
     }
 
     public static List<WebPage> init(int count) {
         List<WebPage> webPages = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            webPages.add(new WebPage(i, "url" + i, "title" + i, "type" + i, "status" + i, " "));
+            webPages.add(new WebPage(0, "url" + i * 4, "??" + i, "type??" + i, "status??" + i, " "));
         }
         return webPages;
     }

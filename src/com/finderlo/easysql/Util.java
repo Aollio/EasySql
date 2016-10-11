@@ -1,6 +1,9 @@
 package com.finderlo.easysql;
 
 import java.lang.reflect.Field;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +12,11 @@ import java.util.Map;
 /**
  * Created by Finderlo on 2016/10/11.
  */
-public class ParseClassUtil {
+public class Util {
+
+    static Table parseTable(Connection connection, String tableName) {
+        return new Table(parse(connection,tableName,"primary"), parse(connection,tableName," "));
+    }
 
     static List<Field> getFields(Class classT){
         List<Field> mFields =new ArrayList<>();
@@ -46,10 +53,36 @@ public class ParseClassUtil {
         }
         return mNameAndTyper;
     }
+
     static Map<String,Typer> getFieldsNameAndValues(Object object,Class classT) throws EasyException {
         Map<Field,Typer> mNameAndTyper = getFieldsAndValues(object, classT);
         Map<String,Typer> mFieldsNameAndValues = new HashMap<>();
         mNameAndTyper.keySet().forEach(field -> {mFieldsNameAndValues.put(field.getName(),mNameAndTyper.get(field));});
         return mFieldsNameAndValues;
+    }
+
+    private static List<String> parse(Connection connection, String tableName, String type) {
+        List<String> result = new ArrayList<>();
+        try {
+            ResultSet resultSet = null;
+            if (type.equals("primary")) {
+                resultSet = connection.getMetaData().getPrimaryKeys(null, null, tableName);
+            } else {
+                resultSet = connection.getMetaData().getColumns(null, null, tableName, null);
+            }
+            while (resultSet.next()) {
+                result.add(resultSet.getString("COLUMN_NAME"));//INDEX:4 ,name
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     *在指定的字符串索引位置替换字符
+     **/
+    static String replace(int index, String newString, String oriString) {
+        return oriString.substring(0, index) + newString + oriString.substring(index + 1);
     }
 }

@@ -11,4 +11,10 @@ public class Table {
     List<String> primaryKey = new ArrayList<>();
 
     List<String> columnsKey = new ArrayList<>();
+
+    Table(){}
+    Table(List<String> primaryKey,List<String> columnsKey){
+        this.columnsKey = columnsKey;
+        this.primaryKey = primaryKey;
+    }
 }

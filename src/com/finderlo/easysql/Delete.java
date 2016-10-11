@@ -2,6 +2,8 @@ package com.finderlo.easysql;
 
 import java.sql.Connection;
 
+import static com.finderlo.easysql.Sentence.*;
+
 /**
  * Created by Finderlo on 2016/10/10.
  */
@@ -32,7 +34,7 @@ public class Delete extends BaseSQLDao {
     }
 
     private String jointSql(String columName, String args) {
-        return "delete from " + mTableName + " where " + columName + "='" + args + "'";
+        return jointDelete(mTableName,columName,args);
     }
 
 
@@ -40,20 +42,20 @@ public class Delete extends BaseSQLDao {
         if (mFieldsName.isEmpty()) {
             throw new EasyException("The model object is empty or isn't initialize");
         }
-
-        String sql = "";
-        if (mFieldsName.size() >= 2) {
-            sql = "delete from " + mTableName + " where ? = '?' and ? = '?'";
-        } else {
-            sql = "delete from " + mTableName + " where ? = '?'";
-        }
-
-        //替换？为value
-        for (int i = 0; i < mFieldsName.size(); i++) {
-            sql = sql.replaceFirst("\\?", mFieldsName.get(i));
-            sql = sql.replaceFirst("\\?", mNameAndTyper.get(mFieldsName.get(i)).value.toString());
-        }
-        return sql;
+//
+//        String sql = "";
+//        if (mFieldsName.size() >= 2) {
+//            sql = "delete from " + mTableName + " where ? = '?' and ? = '?'";
+//        } else {
+//            sql = "delete from " + mTableName + " where ? = '?'";
+//        }
+//
+//        //替换？为value
+//        for (int i = 0; i < mFieldsName.size(); i++) {
+//            sql = sql.replaceFirst("\\?", mFieldsName.get(i));
+//            sql = sql.replaceFirst("\\?", mNameAndTyper.get(mFieldsName.get(i)).value.toString());
+//        }
+        return jointDelete(mTableName,mFieldsName,mNameAndTyper);
     }
 
 

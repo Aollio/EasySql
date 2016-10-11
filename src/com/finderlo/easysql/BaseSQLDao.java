@@ -52,11 +52,11 @@ public abstract class BaseSQLDao {
 
     protected void getFields(Object object, Class classT) throws EasyException {
         getFields(classT);
-        mNameAndTyper = ParseClassUtil.getFieldsNameAndValues(object, classT);
+        mNameAndTyper = Util.getFieldsNameAndValues(object, classT);
     }
     protected void getFields(Class classT){
         mClassT = classT;
-        ParseClassUtil.getFields(classT).forEach(field -> {mFields.add(field);mFieldsName.add(field.getName());});
+        Util.getFields(classT).forEach(field -> {mFields.add(field);mFieldsName.add(field.getName());});
         mIsAlreadyGetFields = true;
     }
 

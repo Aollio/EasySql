@@ -48,7 +48,8 @@ EasySql.insert(Connection,TableName,Object)
 
 * static boolean update(Connection connection, String tableName, String setKey, String setValue, String whereKey, String whereValue)
 
-### 事例方法
+### 实例方法
+
 * boolean insert(Object object)
 
 * boolean delete(Object object)
@@ -60,3 +61,8 @@ EasySql.insert(Connection,TableName,Object)
 * List query(Class classT, String columName, String args)
 
 * boolean update( String setKey, String setValue, String whereKey, String whereValue)
+
+### 说明
+
+* 版本0.6 修复传入对象若含有与拼接sql中占位符相同的字符会导致异常；问题：插入对象中属性（对应表中主键时）为0，而表结构中设置了自增长主键，可以插入成功，但是再次删除这些对象会导致删除失败。
+* 版本0.5 支持基本功能
