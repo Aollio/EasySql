@@ -25,15 +25,14 @@ public class Query extends BaseSQLDao {
      * @return the list of model.
      */
     List query(String columnName, String arg, Class classT) throws EasyException {
-        getFields(classT);
+        initClass(classT);
         return parseResult(executeQuery(jointSql(columnName, arg)));
     }
 
     List query(Class classT) throws EasyException {
-        getFields(classT);
+        initClass(classT);
         return parseResult(executeQuery(jointSql()));
     }
-
 
     List queryFuzzy() {
         return null;
@@ -48,12 +47,15 @@ public class Query extends BaseSQLDao {
             }
 
             //遍历数据库中的每一行
-
             while (resultSet.next()) {
-                Object object = mClassT.newInstance();
+                Object object = mClassType.classType.newInstance();
                 //遍历类中的每一个属性，并将值赋予这个对象
-                for (Field field : mFields) {
+                for (Field field : mClassType.classType.getDeclaredFields()) {
                     field.setAccessible(true);
+                    if (!mClassType.isFieldExist(field.getName())){
+                        //// TODO: 2016/10/12 如果数据库中不存在这个属性，则返回
+                        continue;
+                    }
                     if (field.getType().getSimpleName().equals(INT)) {
                         field.setInt(object, resultSet.getInt(field.getName()));
                     } else if (field.getType().getSimpleName().equals(BOOLEAN)) {
@@ -74,7 +76,7 @@ public class Query extends BaseSQLDao {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
-            throw new EasyException(mClassT.getName()
+            throw new EasyException(mClassType.classType.getName()
                     + " : The default constructor is private . Or The class isn't have zero argument constructor");
         }
 
@@ -82,11 +84,11 @@ public class Query extends BaseSQLDao {
     }
 
     private String jointSql(String columnName, String arg) {
-        return "select * from " + mTableName + " where " + columnName + " = '" + arg + "'";
+        return "select * from " + mTable.tableName + " where " + columnName + " = '" + arg + "'";
     }
 
     private String jointSql() {
-        return "select * from " + mTableName;
+        return "select * from " + mTable.tableName;
     }
 
 }

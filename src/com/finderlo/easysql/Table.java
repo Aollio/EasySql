@@ -8,12 +8,16 @@ import java.util.List;
  */
 public class Table {
 
+    String tableName;
+
     List<String> primaryKey = new ArrayList<>();
 
     List<String> columnsKey = new ArrayList<>();
 
     Table(){}
-    Table(List<String> primaryKey,List<String> columnsKey){
+
+    Table(String tableName,List<String> primaryKey,List<String> columnsKey){
+        this.tableName = tableName.toLowerCase();
         this.columnsKey = columnsKey;
         this.primaryKey = primaryKey;
     }

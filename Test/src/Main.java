@@ -1,11 +1,8 @@
 import com.finderlo.easysql.EasyException;
 import com.finderlo.easysql.EasySql;
-import com.sun.org.apache.regexp.internal.RE;
+import model.JDBCUitl;
 import model.WebPage;
 
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +19,14 @@ public class Main {
         List webpages = init(5);
 //        insert(webpages);
 //        deleteWithArg();
-        delete(webpages);
-//        query();
+//        delete(webpages);
+        query();
+//        System.out.println((String) null);
 
-//        Connection connection = JDBCUitl.getConnection();
+        EasySql easySql = new EasySql(JDBCUitl.getConnection(), TABLE_NAME);
+//            System.out.println("insert :" + easySql.insert(new WebPage(0,null,null,null,null,null)));
+
+//        Connection connection = model.JDBCUitl.getConnection();
 //        DatabaseMetaData databaseMetaData = connection.getMetaData();
 //        String databaseName = databaseMetaData.getDatabaseProductName();//MySQL
 //
@@ -79,7 +80,7 @@ public class Main {
     public static List<WebPage> init(int count) {
         List<WebPage> webPages = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            webPages.add(new WebPage(0, "url" + i * 4, "??" + i, "type??" + i, "status??" + i, " "));
+            webPages.add(new WebPage(i, "url" + i , "??" + i, "type??" + i, "status??" + i, " "));
         }
         return webPages;
     }
@@ -90,6 +91,8 @@ public class Main {
             try {
                 System.out.println("insert :" + easySql.insert(wepage));
             } catch (EasyException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
                 e.printStackTrace();
             }
         });

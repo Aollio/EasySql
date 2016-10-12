@@ -25,8 +25,10 @@ public class WebPage {
     private String url;
     private String title;
     private String type;
-    private String status;
-    private String html;
+//    private String status;
+//    private String html;
+//
+//    private String test;
 
     public WebPage() {
     }
@@ -36,12 +38,12 @@ public class WebPage {
         this.url = url;
         this.title = title;
         this.type = type;
-        this.status = status;
-        this.html = html;
+//        this.status = status;
+//        this.html = html;
     }
-
-    @Override
-    public String toString() {
-        return " id = " + id + " title = " + title + " type = " + type + " status = " + status + " url = " + url + " html = " + html;
-    }
+//
+//    @Override
+//    public String toString() {
+//        return " id = " + id + " title = " + title + " type = " + type + " status = " + status + " url = " + url + " html = " + html;
+//    }
 }
