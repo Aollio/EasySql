@@ -55,12 +55,13 @@ public static void main(String[] args)
 }
 ```
 插入前：
-![](/api/document/files/unzip/46387bf5-fd7e-4ab4-9b9e-25a7a66ac0bf/2686ac49-29e1-4395-b2d0-78ed0c217e63.895/index_files/1476258194257QQ_u622A_u56FE20161012154219.png)
-插入后：
-![https://note.wiz.cn](/api/document/files/unzip/46387bf5-fd7e-4ab4-9b9e-25a7a66ac0bf/b566cff3-f304-41b2-882e-db9b8e0d6a10.898/index_files/a8b59082f257d1180ee86a65270cf249.png)
+![](https://raw.githubusercontent.com/finderlo/EasySql/master/other/20161012154219.png)
 
+插入后：
+![](https://raw.githubusercontent.com/finderlo/EasySql/master/other/20161012155216.png)
 
 ## 使用样例
+
 ```java
 //初始化
 EasySql easySql = new EasySql(Connection,TableName);
