@@ -17,10 +17,10 @@ import java.util.List;
 public class SqlDao {
 
 
-    static int executeUpdate(Connection connection,String sql){
+    static int executeUpdate(Connection connection, String sql) {
         int count = 0;
         try {
-            if (connection.getAutoCommit()){
+            if (connection.getAutoCommit()) {
                 connection.setAutoCommit(false);
             }
             Statement statement = connection.createStatement();
@@ -38,7 +38,7 @@ public class SqlDao {
         return count;
     }
 
-    static ResultSet executeQuery(Connection connection,String sql){
+    static ResultSet executeQuery(Connection connection, String sql) {
         ResultSet resultSet = null;
         try {
             Statement statement = connection.createStatement();
@@ -49,14 +49,11 @@ public class SqlDao {
         return resultSet;
     }
 
-    static List parseResult(ClassModel classModel, ResultSet resultSet) throws EasyException {
+    static List parseResult(ClassModel classModel, ResultSet resultSet,boolean isJoinQuery) throws EasyException {
         List result = new ArrayList();
-        boolean isJoinQuery = true;
         try {
-
             //遍历数据库中的每一行
             while (resultSet.next()) {
-
 
                 Object object = classModel.classType.newInstance();
                 //遍历表中字段中的每一个属性，并将值赋予这个对象
@@ -84,10 +81,15 @@ public class SqlDao {
                         Object foreignValue = foreignKeyModel.field.get(object);
                         //外键对应的表
                         String tableName = foreignKeyModel.tableName;
-                        //外键对应的实体类对象,这个方法用于查询指定表的值,最后一个字段，用来表示是否是主键
-                        Object foreignObject = Util.query(foreignKeyModel.foreignField.getType(),foreignKeyModel.columnName,foreignValue,true);
+                        //外键对应的实体类对象,这个方法用于查询指定表的值,最后一个字段，用来表示是否是继续关联查找
+                        List list  = EasySql.query(foreignKeyModel.foreignField.getType(),
+                                foreignKeyModel.columnName, foreignValue.toString(), true);
+                        Object foreignObject = null;
+                        if (!list.isEmpty()){
+                            foreignObject = list.get(0);
+                        }
                         //将主要对象中的外键对应属性设置
-                        foreignKeyModel.foreignField.set(object,foreignObject);
+                        foreignKeyModel.foreignField.set(object, foreignObject);
                     }
                 }
                 result.add(object);
@@ -99,7 +101,6 @@ public class SqlDao {
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
-            e.printStackTrace();
             throw new EasyException(classModel.classType.getName()
                     + " : The default constructor is private . Or The class isn't have default constructor");
         }

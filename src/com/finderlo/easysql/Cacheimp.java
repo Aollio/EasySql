@@ -29,7 +29,13 @@ public class Cacheimp implements Cache {
     //类中均为小写
     Map<String, ClassModel> classTypeMap = new HashMap<>();
 
-    Cacheimp() {
+    private static Cacheimp singleton = new Cacheimp();
+
+    private Cacheimp() {
+    }
+
+    public static Cacheimp getInstance(){
+        return singleton;
     }
 
     @Override

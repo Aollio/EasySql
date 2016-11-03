@@ -1,7 +1,6 @@
 package test.easysql;
 
 import com.finderlo.easysql.utility.EasyException;
-import com.finderlo.easysql.EasySql;
 import com.finderlo.easysql.Util;
 
 import java.io.IOException;

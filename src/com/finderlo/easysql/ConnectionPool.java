@@ -9,7 +9,7 @@ public interface ConnectionPool {
 
     int getPoolConnCount();
 
-    SpecConnection getConnection() throws EasyException;
+    SpecConnection getConnection() ;
 
     boolean closePool();
 

@@ -1,6 +1,5 @@
 import com.finderlo.easysql.utility.EasyException;
-import com.finderlo.easysql.EasySql;
-import model.JDBCUitl;
+
 import model.WebPage;
 
 import java.sql.SQLException;
@@ -20,10 +19,10 @@ public class Main {
 //        insert(webpages);
 //        deleteWithArg();
 //        delete(webpages);
-        query();
+//        query();
 //        System.out.println((String) null);
 
-        EasySql easySql = new EasySql(JDBCUitl.getConnection(), TABLE_NAME);
+//        EasySql easySql = new EasySql(JDBCUitl.getConnection(), TABLE_NAME);
 //            System.out.println("insert :" + easySql.insert(new WebPage(0,null,null,null,null,null)));
 
 //        Connection connection = model.JDBCUitl.getConnection();
@@ -85,39 +84,37 @@ public class Main {
         return webPages;
     }
 
-    public static void insert(List wepages) {
-        wepages.forEach(wepage -> {
-            EasySql easySql = new EasySql(JDBCUitl.getConnection(), TABLE_NAME);
-            try {
-                System.out.println("insert :" + easySql.insert(wepage));
-            } catch (EasyException e) {
-                e.printStackTrace();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    public static void delete(List wepages) {
-        wepages.forEach(wepage -> {
-            EasySql easySql = new EasySql(JDBCUitl.getConnection(), TABLE_NAME);
-            try {
-                System.out.println("delete :" + easySql.delete(wepage));
-            } catch (EasyException e) {
-                e.printStackTrace();
-            }
-        });
-    }
-
-    public static void deleteWithArg() {
-        EasySql easySql = new EasySql(JDBCUitl.getConnection(), TABLE_NAME);
-        System.out.println("delete :" + easySql.delete("id", "2"));
-    }
-
-    public static void query() throws EasyException {
-        EasySql easySql = new EasySql(JDBCUitl.getConnection(), TABLE_NAME);
-        System.out.println(easySql.query(WebPage.class));
-    }
-
+//    public static void insert(List wepages) {
+//        wepages.forEach(wepage -> {
+////            EasySql easySql = new EasySql(JDBCUitl.getConnection(), TABLE_NAME);
+//            try {
+//                System.out.println("insert :" + easySql.insert(wepage));
+//            } catch (EasyException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//    }
+//
+//    public static void delete(List wepages) {
+//        wepages.forEach(wepage -> {
+//            EasySql easySql = new EasySql(JDBCUitl.getConnection(), TABLE_NAME);
+//            try {
+//                System.out.println("delete :" + easySql.delete(wepage));
+//            } catch (EasyException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//    }
+//
+//    public static void deleteWithArg() {
+//        EasySql easySql = new EasySql(JDBCUitl.getConnection(), TABLE_NAME);
+//        System.out.println("delete :" + easySql.delete("id", "2"));
+//    }
+//
+//    public static void query() throws EasyException {
+//        EasySql easySql = new EasySql(JDBCUitl.getConnection(), TABLE_NAME);
+//        System.out.println(easySql.query(WebPage.class));
+//    }
+//
 
 }

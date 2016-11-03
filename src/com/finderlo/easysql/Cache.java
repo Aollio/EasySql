@@ -16,9 +16,9 @@ import static com.finderlo.easysql.Util.*;
 public interface Cache {
 
 
-    ClassModel getClassModel(Class classT) throws EasyException;
+    ClassModel getClassModel(Class classT) ;
 
-    TableModel getTableModel(String table) throws EasyException;
+    TableModel getTableModel(String table) ;
 
     void cacheTable(Connection connection, String tableName);
 

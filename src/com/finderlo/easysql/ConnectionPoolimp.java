@@ -25,25 +25,39 @@ public class ConnectionPoolimp implements ConnectionPool {
     //连接池中最大的连接数量
     private int maxConnCount = 30;
 
-    ConnectionPoolimp() throws EasyException {
-        databaseConfig = Util.parseProperties();
+    ConnectionPoolimp() {
+        try {
+            databaseConfig = Util.parseProperties();
+        } catch (EasyException e) {
+            e.printStackTrace();
+            throw new RuntimeException("数据库连接配置信息错误");
+        }
         initConnPool();
     }
-    ConnectionPoolimp(Map<String,String> databaseConfig){
-        this.databaseConfig =  databaseConfig;
+
+    ConnectionPoolimp(Map<String, String> databaseConfig) {
+        this.databaseConfig = databaseConfig;
     }
 
-    private void initConnPool() throws EasyException {
+    private void initConnPool() {
         //初始化时，初始化连接池中连接的数量
         createSpecConn(initialConnCount);
     }
+
+    /**
+     * 获取连接池中所有的连接
+     * */
     @Override
-    public int getPoolConnCount(){
+    public int getPoolConnCount() {
         return specConnections.size();
     }
 
+    /**
+     * 获得一个连接，如果连接池中所有连接全部忙碌状态，则尝试新建连接。
+     * 如果连接达到最大数，则等待，一直到有空闲的连接为止
+     * */
     @Override
-    public SpecConnection getConnection() throws EasyException {
+    public SpecConnection getConnection() {
 
         for (SpecConnection specConnection : specConnections) {
             if (!specConnection.isBusy()) {
@@ -62,24 +76,38 @@ public class ConnectionPoolimp implements ConnectionPool {
         return getConnection();
     }
 
+    /**
+     * 关闭连接池，并将连接池中的所有连接全部关闭
+     * */
     @Override
     public boolean closePool() {
         specConnections.forEach(e -> e.closeConn());
         return true;
     }
 
+    /**
+     * 连接使用完成后返回，将连接的busy状态设置为false
+     */
     @Override
     public void returnConnection(SpecConnection specConnection) {
         specConnection.setBusy(false);
     }
 
-    private void createSpecConn(int ConnCount) throws EasyException {
+    /**
+     * 通过配置文件创建连接,并且将连接放入连接池中
+     *
+     * @param ConnCount 一次性创建连接的数量
+     */
+    private void createSpecConn(int ConnCount) {
         for (int i = 0; i < ConnCount; i++) {
             createSpecConn();
         }
     }
 
-    private void createSpecConn() throws EasyException {
+    /**
+     * 通过配置文件创建一个连接,并且将连接放入连接池中
+     */
+    private void createSpecConn() {
 
         String driver = databaseConfig.get("driver");
         String url = databaseConfig.get("url");
@@ -90,14 +118,14 @@ public class ConnectionPoolimp implements ConnectionPool {
             Class.forName(driver);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            throw new EasyException("配置文件中的driver（数据库驱动程序类）未找到");
+            throw new RuntimeException("配置文件中的driver（数据库驱动程序类）未找到");
         }
         Connection connection = null;
         try {
             connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new EasyException("通过配置文件获得连接失败，请确定url、user、password是否正确。" +
+            throw new RuntimeException("通过配置文件获得连接失败，请确定url、user、password是否正确。" +
                     "['url':" + url + ";'user':" + user + ";'password':" + password + "]");
         }
 
@@ -106,7 +134,7 @@ public class ConnectionPoolimp implements ConnectionPool {
     }
 
     public static void main(String[] args) throws EasyException, SQLException {
-        ConnectionPool connectionPool= new ConnectionPoolimp();
+        ConnectionPool connectionPool = new ConnectionPoolimp();
         System.out.println(connectionPool.getPoolConnCount());
         SpecConnection connection = connectionPool.getConnection();
         connection.getConnection().createStatement().executeQuery("select * form ");

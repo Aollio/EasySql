@@ -4,12 +4,70 @@ import com.finderlo.easysql.model.ObjectFieldValue;
 import com.finderlo.easysql.model.TableModel;
 import com.finderlo.easysql.utility.EasyException;
 
+import java.util.Map;
+import java.util.Set;
+
 import static com.finderlo.easysql.Util.*;
 
 /**
  * Created by Finderlo on 2016/10/11.
  */
 class Sentence {
+
+    public static String jointUpdate(String tableName, Map<String, String> setMap, Map<String, String> whereMap) {
+        String head = " update " + tableName;
+        String set = " set ";
+        String where = " where ";
+
+
+
+        Set<Map.Entry<String, String>> entries = setMap.entrySet();
+        StringBuilder setStringBuilder = new StringBuilder();
+        final boolean[] flags = new boolean[1];
+        flags[0] = true;
+        entries.forEach(entry ->
+                {
+
+                    if (flags[0]) {
+                        setStringBuilder
+                                .append(entry.getKey())
+                                .append("=")
+                                .append("'").append(entry.getValue()).append("'");
+                        flags[0] = false;
+                    } else {
+                        setStringBuilder
+                                .append(",")
+                                .append(entry.getKey())
+                                .append("=").append("'").append(entry.getValue()).append("'");
+                    }
+                }
+        );
+
+
+        StringBuilder whereStringBuiler = new StringBuilder();
+
+        entries = whereMap.entrySet();
+        flags[0] = true;
+        entries.forEach(entry ->
+                {
+                    if (flags[0]) {
+                        whereStringBuiler
+                                .append(entry.getKey())
+                                .append("=")
+                                .append("'").append(entry.getValue()).append("'");
+                        flags[0] = false;
+                    } else {
+                        whereStringBuiler
+                                .append(",")
+                                .append(entry.getKey())
+                                .append("=").append("'").append(entry.getValue()).append("'");
+                    }
+                }
+        );
+
+        return head + set + setStringBuilder.toString() + where + whereStringBuiler.toString();
+
+    }
 
     static String jointUpdate(String tableName, String setKey, String setValue, String whereKey, String whereValue) {
         return "update " + tableName + " set " + setKey + "=" + setValue + " where " + whereKey + "=" + whereValue;

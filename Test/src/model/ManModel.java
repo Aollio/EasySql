@@ -1,10 +1,5 @@
 package model;
 
-import com.finderlo.easysql.utility.EasyException;
-import com.finderlo.easysql.EasySql;
-
-import java.sql.SQLException;
-
 /**
  * Created by Finderlo on 2016/10/12.
  */
@@ -22,9 +17,9 @@ public class ManModel {
         this.man_age = age;
     }
 
-    public static void main(String[] args) throws EasyException, SQLException {
-        EasySql easySql = new EasySql(JDBCUitl.getConnection(),"man");
-        ManModel manModel = new ManModel(1,"小明","男",18);
-        easySql.insert(manModel);
-    }
+//    public static void main(String[] args) throws EasyException, SQLException {
+//        EasySql easySql = new EasySql(JDBCUitl.getConnection(),"man");
+//        ManModel manModel = new ManModel(1,"小明","男",18);
+//        easySql.insert(manModel);
+//    }
 }

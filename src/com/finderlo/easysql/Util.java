@@ -229,14 +229,5 @@ public final class Util {
         return connection;
     }
 
-    public static Object query(Class<?> type, String columnName, Object foreignValue, boolean b) throws EasyException {
-        if (foreignValue == null) {
-            return null;
-        }
-        List results = new Controller().executeQuery(type, columnName, foreignValue.toString());
-        if (results.size() == 0) {
-            return null;
-        }
-        return results.get(0);
-    }
+
 }

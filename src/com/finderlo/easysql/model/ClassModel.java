@@ -18,9 +18,12 @@ public class ClassModel {
     public TableModel tableModel;
 
     public List<String> primaryKeys = new ArrayList<>();    //属性中对应的主键，可能有多个
+
     public List<ForeignKeyModel> foreignKeys = new ArrayList<>();    //属性中对应的外键，可能有多个,映射关系为
 
     public Map<String, Field> allFieldsMap = new HashMap<>();    //类中的属性的映射
+
+    enum ClassKey{}
 
     public ClassModel() {
     }
