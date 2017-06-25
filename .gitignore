@@ -1,5 +1,6 @@
 .idea
+*.iml
 setting.gradle
 .gradle
 build
-.DS-Store
+.DS_Store
