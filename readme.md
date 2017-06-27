@@ -3,9 +3,10 @@
 
 ## 简介
 
+A small simple ORM framework base Java
+
 一个出于兴趣爱好，用于简便在代码中拼接sql语句与数据库进行通信的库。
 
-适用于个人的小型的小项目
 
 正在开发中
 
